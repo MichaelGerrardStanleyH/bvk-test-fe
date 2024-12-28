@@ -85,6 +85,8 @@ export default function MemberList() {
           <Col></Col>
         </Row>
 
+        <p style={{fontSize: "0.65em", color: "salmon"}}>Click a row in the table to open the details page</p>
+
         <Table striped>
           <thead>
             <tr>

@@ -20,12 +20,17 @@ const signUp = async (payload) => {
   form.append("name", payload["dto"]["name"]);
   form.append("position", payload["dto"]["position"]);
   form.append("organizationId", payload["dto"]["organizationId"]);
-  form.append("reportsToId", payload["dto"]["reportsToId"]);
   form.append("image", payload["image"]);
   form.append("email", payload["dto"]["email"]);
   form.append("password", payload["dto"]["password"]);
-
-  console.log(form);
+  
+  
+  if(!payload["dto"]["reportsToId"] == 0){
+      form.append("reportsToId", payload["dto"]["reportsToId"]);
+  }
+  
+  
+    console.log("bjir");
 
   try {
     const result = await axios.post(`${config.host}/auth/signup`, form);
