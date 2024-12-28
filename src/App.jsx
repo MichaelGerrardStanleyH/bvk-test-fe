@@ -8,7 +8,6 @@ import Main from "./pages/Main";
 import MemberList from "./pages/MemberList";
 import CreateMember from "./pages/CreateMember";
 import MemberDetails from "./pages/MemberDetails";
-import FirebaseImageUpload from "./config/firebaseImageUpload";
 
 const router = createBrowserRouter([
   {
@@ -38,11 +37,7 @@ const router = createBrowserRouter([
   {
     path: "/member/details",
     element: <MemberDetails />,
-  },
-  {
-    path: "/upload",
-    element: <FirebaseImageUpload />,
-  },
+  }
 ]);
 
 function App() {

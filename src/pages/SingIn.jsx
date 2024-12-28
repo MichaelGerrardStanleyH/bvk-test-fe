@@ -1,4 +1,4 @@
-import React from "react";
+import {React, useEffect, useState} from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
@@ -6,12 +6,52 @@ import Header from "../component/header/Header";
 
 import { useNavigate, useLocation } from "react-router-dom";
 
-export default function SingIn() {
-    let navigate = useNavigate();
+import apiAuth from "../api/apiAuth";
 
-    const onClick = () => {
-        navigate("/main", { bjir: { id: 1 } });
-      };
+export default function SingIn() {
+  let navigate = useNavigate();
+
+  const onClick = () => {
+    navigate("/main", { bjir: { id: 1 } });
+  };
+
+  const [dto, setDto] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChangeEmail = (event) => {
+    setDto({
+      ...dto,
+      ["email"]: event.target.value,
+    });
+  };
+
+  const handleChangePassword = (event) => {
+    setDto({
+      ...dto,
+      ["password"]: event.target.value,
+    });
+  };
+
+  console.log(dto);
+  
+
+  const onSubmit = (event) => {
+      event.preventDefault();
+
+      apiAuth.signin(dto)
+      .then((data) => {
+        console.log(data);
+        if(data["status"] === 200){
+          navigate("/main", { state: { userId: data["userId"]} })
+        } else{
+          alert('Username or Password Incorrect!!!')
+        }
+      }).catch((error) => console.log(error))
+      
+      
+    };
 
   return (
     <>
@@ -28,10 +68,14 @@ export default function SingIn() {
         <p className="" style={{ color: "black", fontSize: "2em" }}>
           Sign In
         </p>
-        <Form>
+        <Form onSubmit={onSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              onChange={handleChangeEmail}
+            />
             <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text>
@@ -39,12 +83,13 @@ export default function SingIn() {
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              onChange={handleChangePassword}
+            />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Check me out" />
-          </Form.Group>
-          <Button variant="primary" type="submit" onClick={onClick}>
+          <Button variant="primary" type="submit">
             Submit
           </Button>
         </Form>

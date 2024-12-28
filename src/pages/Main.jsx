@@ -1,11 +1,16 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
 
 import apiMember from "../api/apiMember";
+import HeaderMain from "../component/headermain/HeaderMain";
 
-export default function Main() {
+export default function Main(props) {
   let navigate = useNavigate();
+
+  const [user, setUser] = useState({});
+
+  let { state } = useLocation();
 
   const onClickList = () => {
     // navigate("/main", { bjir: { id: 1 } });
@@ -16,29 +21,45 @@ export default function Main() {
     navigate("/create", { bjir: { id: 1 } });
   };
 
+  useEffect(() => {
+    apiMember.getById(state.userId).then((data) => {
+      setUser(data);
+    });
+  }, []);
+
+  const onClickBanner = () =>{
+    navigate("/main");
+  }
+
   return (
     <>
-      <h1>Main Page</h1>
+      <HeaderMain onClick={onClickBanner}/>
 
-      <ul
-        className="listButton"
-        style={{ listStyle: "none", margin: "0", padding: "0" }}
-      >
-        <li>
-          <Button
-            variant="primary"
-            style={{ marginBottom: "10px" }}
-            onClick={onClickList}
-          >
-            See all member
-          </Button>
-        </li>
-        <li>
-          <Button variant="primary" onClick={onClickCreate}>
-            Create Member
-          </Button>
-        </li>
-      </ul>
+      <div className="container">
+        <div style={{}}>
+          <h1>{`Welcome ${user["name"]}, select the page you want`}</h1>
+        </div>
+
+        <ul
+          className="listButton"
+          style={{ listStyle: "none", margin: "0", padding: "0", marginTop: "25px"}}
+        >
+          <li>
+            <Button
+              variant="primary"
+              style={{ marginBottom: "10px" }}
+              onClick={onClickList}
+            >
+              See all member
+            </Button>
+          </li>
+          <li>
+            <Button variant="primary" onClick={onClickCreate}>
+              Create Member
+            </Button>
+          </li>
+        </ul>
+      </div>
     </>
   );
 }

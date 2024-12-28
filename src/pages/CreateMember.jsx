@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import apiMember from "../api/apiMember";
 import { data } from "react-router-dom";
+import HeaderMain from "../component/headermain/HeaderMain";
 
 export default function CreateMember() {
   const [member, setmember] = useState([]);
@@ -24,7 +25,6 @@ export default function CreateMember() {
     position: "",
     organizationId: 1,
     reportsToId: 0,
-
   });
 
   const handleChangeName = (event) => {
@@ -63,7 +63,6 @@ export default function CreateMember() {
     };
 
     console.log(payload);
-    
 
     apiMember
       .createWithImage(payload)
@@ -75,59 +74,63 @@ export default function CreateMember() {
     navigate("/member");
   };
 
+  const onClickBanner = () => {
+    navigate(-1);
+  };
+
   return (
     <>
-      <h1>Create Member Page</h1>
-
+      <HeaderMain onClick={onClickBanner} />
       <div className="container">
-        <Form onSubmit={onSubmit}>
-          <Form.Group className="mb-3" controlId="formBasicName">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter name"
-              onChange={handleChangeName}
-            />
-            {/* <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text> */}
-          </Form.Group>
+        <h1>Create Member Page</h1>
 
-          <Form.Group
-            className="mb-3"
-            controlId="formBasicPosition"
-            onChange={handleChangePosition}
-          >
-            <Form.Label>Position</Form.Label>
-            <Form.Control type="text" placeholder="Enter positon" />
-          </Form.Group>
+        <div className="container">
+          <Form onSubmit={onSubmit}>
+            <Form.Group className="mb-3" controlId="formBasicName">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter name"
+                onChange={handleChangeName}
+              />
+            </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicReportsTo">
-            <Form.Label>Reports To</Form.Label>
-            <Form.Select
-              aria-label="Default select example"
-              style={{ marginBottom: "20px" }}
-              onChange={handleChangeReportsTo}
+            <Form.Group
+              className="mb-3"
+              controlId="formBasicPosition"
+              onChange={handleChangePosition}
             >
-              <option>Select Reports To</option>
-              {member.map((obj) => {
-                return <option value={obj["id"]}>{obj["name"]}</option>;
-              })}
-            </Form.Select>
-          </Form.Group>
+              <Form.Label>Position</Form.Label>
+              <Form.Control type="text" placeholder="Enter positon" />
+            </Form.Group>
 
-          <Form.Group controlId="formFile" className="mb-3">
-            <Form.Label>Default file input example</Form.Label>
-            <Form.Control
-              type="file"
-              onChange={(e) => setImage(e.target.files[0])}
-            />
-          </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicReportsTo">
+              <Form.Label>Reports To</Form.Label>
+              <Form.Select
+                aria-label="Default select example"
+                style={{ marginBottom: "20px" }}
+                onChange={handleChangeReportsTo}
+              >
+                <option>Select Reports To</option>
+                {member.map((obj) => {
+                  return <option value={obj["id"]}>{obj["name"]}</option>;
+                })}
+              </Form.Select>
+            </Form.Group>
 
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
+            <Form.Group controlId="formFile" className="mb-3">
+              <Form.Label>Default file input example</Form.Label>
+              <Form.Control
+                type="file"
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+            </Form.Group>
+
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+          </Form>
+        </div>
       </div>
     </>
   );
