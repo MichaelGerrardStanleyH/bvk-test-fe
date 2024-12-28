@@ -80,11 +80,22 @@ const deleteMember = async (id) => {
   }
 };
 
+const getByNameContains = async (name) => {
+  try {
+    const result = await axios.get(`${config.host}/members/${name}/search`);
+    return result.data;
+  } catch (error) {
+    console.log(error);
+    return await error.message;
+  }
+};
+
 export default{
     list,
     create,
     createWithImage,
     getById,
     update,
-    deleteMember
+    deleteMember,
+    getByNameContains
 }

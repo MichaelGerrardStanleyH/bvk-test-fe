@@ -4,11 +4,18 @@ import { data } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 import { Navigate, useNavigate } from "react-router-dom";
 import HeaderMain from "../component/headermain/HeaderMain";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 export default function MemberList() {
   let navigate = useNavigate();
 
   const [member, setmember] = useState([]);
+
+  const [name, setName] = useState();
 
   useEffect(() => {
     apiMember.list().then((data) => {
@@ -16,23 +23,68 @@ export default function MemberList() {
     });
   }, []);
 
+
   const onClickDetail = (id) => () => {
     navigate("details", { state: { memberId: id } });
   };
 
-  const onClickBanner = () =>{
+  const onClickBanner = () => {
     navigate(-1);
-  }
+  };
 
 
-  
+  const handleChangeSearch = (event) => {
+    setName(event.target.value);
+
+    console.log(name);
+  };
+
+  const onSubmit = (event) => {
+      event.preventDefault();
+
+      if(name == "" || name == null){
+        apiMember.list().then((data) => {
+          setmember(data);
+        });
+
+      }else{
+        console.log("hayhay");
+        
+        apiMember
+        .getByNameContains(name)
+        .then((data) => {
+          setmember(data);
+        })
+        .catch((error) => console.log(error));
+      }
+
+      
+    };
 
   return (
     <>
       <HeaderMain onClick={onClickBanner} />
 
       <div className="container">
-        <h1>Member List Page</h1>
+        <h1 style={{marginTop: "15px"}}>Member List Page</h1>
+
+        <Row style={{marginTop: "30px"}}>
+          <Col>
+            <InputGroup className="mb-3" onChange={handleChangeSearch}>
+              <Form.Control
+                placeholder="Recipient's username"
+                aria-label="Recipient's username"
+                aria-describedby="basic-addon2"
+              />
+              <Button variant="outline-secondary" id="button-addon2" onClick={onSubmit}>
+                Button
+              </Button>
+            </InputGroup>
+          </Col>
+          <Col></Col>
+          <Col></Col>
+        </Row>
+
         <Table striped>
           <thead>
             <tr>

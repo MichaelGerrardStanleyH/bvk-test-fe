@@ -30,7 +30,7 @@ export default function MemberDetails(props) {
     <>
       <HeaderMain onClick={onClickBanner} />
       <div className="container">
-        <h1>Member Detail</h1>
+        <h1 style={{marginTop: "15px"}}>Member Detail</h1>
         <div className="container">
           <p>Name: {member["name"]}</p>
           <p>Postion: {member["position"]}</p>

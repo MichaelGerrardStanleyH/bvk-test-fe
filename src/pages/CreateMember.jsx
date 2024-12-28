@@ -82,7 +82,7 @@ export default function CreateMember() {
     <>
       <HeaderMain onClick={onClickBanner} />
       <div className="container">
-        <h1>Create Member Page</h1>
+        <h1 style={{marginTop: "15px"}}>Create Member Page</h1>
 
         <div className="container">
           <Form onSubmit={onSubmit}>

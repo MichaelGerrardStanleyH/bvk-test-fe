@@ -37,7 +37,7 @@ export default function Main(props) {
 
       <div className="container">
         <div style={{}}>
-          <h1>{`Welcome ${user["name"]}, select the page you want`}</h1>
+          <h1 style={{marginTop: "15px"}}>{`Welcome ${user["name"]}, select the page you want`}</h1>
         </div>
 
         <ul
