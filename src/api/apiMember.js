@@ -15,6 +15,7 @@ const list = async () => {
 };
 
 const create = async (payload) => {
+
   try {
     const result = await axios.post(`${config.host}/members`, payload);
     return result.data;
@@ -23,6 +24,32 @@ const create = async (payload) => {
     return await error.message;
   }
 };
+
+const createWithImage = async (payload) => {
+
+  // const FormData = require("form-data");
+  const form = new FormData();
+  form.append("name", payload["dto"]["name"])
+  form.append("position", payload["dto"]["position"])
+  form.append("organizationId", payload["dto"]["organizationId"])
+  form.append("reportsToId", payload["dto"]["reportsToId"])
+  form.append("image", payload["image"])
+
+
+  console.log(form);
+  
+  
+
+  try {
+    const result = await axios.post(`${config.host}/members/form`, form);
+    return result.data;
+  } catch (error) {
+    console.log(error);
+    return await error.message;
+  }
+};
+
+
 
 const getById = async (id) => {
   try {
@@ -56,6 +83,7 @@ const deleteMember = async (id) => {
 export default{
     list,
     create,
+    createWithImage,
     getById,
     update,
     deleteMember

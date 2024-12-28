@@ -2,8 +2,11 @@ import { React, useEffect, useState } from "react";
 import apiMember from "../api/apiMember";
 import { data } from "react-router-dom";
 import Table from "react-bootstrap/Table";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function MemberList() {
+  let navigate = useNavigate();
+
   const [member, setmember] = useState([]);
 
   useEffect(() => {
@@ -11,6 +14,10 @@ export default function MemberList() {
       setmember(data);
     });
   }, []);
+
+  const onClickDetail = (id) => () => {
+    navigate("details", { state: { memberId: id} })
+  };
 
   return (
     <>
@@ -31,7 +38,7 @@ export default function MemberList() {
           <tbody>
             {member.map((obj) => {
               return (
-                <tr>
+                <tr onClick={onClickDetail(obj["id"])}>
                   <td>
                     <text>{obj["id"]}</text>
                   </td>

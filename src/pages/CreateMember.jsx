@@ -17,11 +17,14 @@ export default function CreateMember() {
     });
   }, []);
 
+  const [img, setImage] = useState();
+
   const [dto, setDto] = useState({
     name: "",
     position: "",
     organizationId: 1,
     reportsToId: 0,
+
   });
 
   const handleChangeName = (event) => {
@@ -54,8 +57,16 @@ export default function CreateMember() {
   const onSubmit = (event) => {
     event.preventDefault();
 
+    const payload = {
+      dto: dto,
+      image: img,
+    };
+
+    console.log(payload);
+    
+
     apiMember
-      .create(dto)
+      .createWithImage(payload)
       .then((data) => {
         console.log("data has been saved");
       })
@@ -103,6 +114,14 @@ export default function CreateMember() {
                 return <option value={obj["id"]}>{obj["name"]}</option>;
               })}
             </Form.Select>
+          </Form.Group>
+
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Default file input example</Form.Label>
+            <Form.Control
+              type="file"
+              onChange={(e) => setImage(e.target.files[0])}
+            />
           </Form.Group>
 
           <Button variant="primary" type="submit">
